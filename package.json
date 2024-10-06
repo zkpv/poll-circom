@@ -1,0 +1,28 @@
+{
+"version": "0.2.0",
+"configurations": [
+{
+"type": "solidity",
+"request": "launch",
+"name": "Depuração de Contratos Solidity com zk-STARK",
+"program": "${workspaceFolder}/contracts/VotingContract.sol",
+"args": [
+"--zk-proof",
+"--gas-limit", "3000000"
+],
+"env": {
+"NODE_ENV": "development",
+"STARKNET_MESSAGING": "enabled"
+},
+"cwd": "${workspaceFolder}",
+"stopOnEntry": false,
+"console": "integratedTerminal",
+"internalConsoleOptions": "openOnSessionStart",
+"serverReadyAction": {
+"pattern": "listening on port ([0-9]+)",
+"uriFormat": "http://localhost:%s",
+"action": "openExternally"
+}
+}
+]
+}
