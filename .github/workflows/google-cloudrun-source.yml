@@ -1,0 +1,28 @@
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: 'Checkout'
+      uses: 'actions/checkout@v4' # Sempre use a versão mais recente estável
+     
+    - name: 'Autenticar no Google Cloud'
+      id: 'auth'
+      uses: 'google-github-actions/auth@v2' # Versão mais recente recomendada
+      with:
+        workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider' # Substitua pelo seu Workload Identity Provider
+        service_account: 'my-service-account@my-project.iam.gserviceaccount.com' # Opcional: nome da conta de serviço se estiver usando impersonação
+
+    - name: 'Deploy para Cloud Run'
+      uses: 'google-github-actions/deploy-cloudrun@v2'
+      with:
+        service: '${{ env.SERVICE }}' # Nome do serviço Cloud Run
+        region: '${{ env.REGION }}'   # Região onde o serviço está hospedado
+        source: './'  # Diretório de origem do código para implantação
+
+    - name: 'Exibir URL de saída'
+      run: echo ${{ steps.deploy.outputs.url }}
